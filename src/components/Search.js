@@ -23,6 +23,9 @@ const Search = () => {
             setResults(data.query.search);
         }
 
+        // won't delay upload when upload for 1st time
+        // result will entry array as it will update only when you
+        // search and send query for the first time
         if( term && !results.length ){
             search()
         }else{
