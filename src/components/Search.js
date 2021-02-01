@@ -3,7 +3,20 @@ import axios from 'axios';
 
 const Search = () => {
     const [ term, setTerm ] = useState('React (web framework)'); // React (web framework)
+    const [ debounceTerm, setDebounceTerm ] = useState(term)
     const [ results, setResults ] = useState([])
+
+    // creating two useEffect
+    // debouceTerm will change will change when you change Term
+    useEffect( () => {
+        const timerId = setTimeout( () => {
+            setDebounceTerm(term)
+        }, 1000);
+
+        return () => {
+            clearTimeout(timerId)
+        }
+    }, [term] )
 
     useEffect( () => {
         const search = async () => {
@@ -16,36 +29,17 @@ const Search = () => {
                         list: 'search',
                         origin: '*',
                         format: 'json',
-                        srsearch: term,
+                        srsearch: debounceTerm,
                     },
                     // https://en.wikipedia.org/w/api.php?action=query&list=search&origin=*&format=json&srsearch=
             });
-            setResults(data.query.search);
-        }
-
-        // won't delay upload when upload for 1st time
-        // result will entry array as it will update only when you
-        // search and send query for the first time
-        if( term && !results.length ){
-            search()
-        }else{
-
-            // will search only if there is any term, which initially is nothing
-            const timeoutId = setTimeout(() => {    
-                if(term){
-                    search();
-                }
-            }, 500);
-            
-            // execpt 1st time, useEffect return run before other
-            // functions written inside useEffect which will cancel the previous 
-            // timeout before creating new timeout function.
-            return() => {
-                clearTimeout(timeoutId)
+            if(debounceTerm) {
+            setResults(data.query.search)
             }
-        }
-        
-    }, [term] );
+        };
+        search();
+        // will run when ever debounceTerm changes
+    }, [debounceTerm]);
 
     // show the result
     const renderedResults = results.map( (result) => {
