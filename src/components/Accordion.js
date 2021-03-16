@@ -11,6 +11,12 @@ const Accordion = ( { items } ) => {
     }
 
     const renderedItems = items.map( ( items, index )=> {
+        // when user click on link we trigger onTitleClick function
+        // and send index of that tag to activeindex
+        // when we update state everything re-render
+        // on rerender again very index is check
+        // and the index that was set active last time is 
+        // is give value active on this render 
         const active = index === activeIndex ? 'active' : ''
 
         return(
@@ -30,10 +36,9 @@ const Accordion = ( { items } ) => {
     return ( 
         <div className="ui styled accordion">
             {renderedItems}
-            <h1>{activeIndex}</h1>
+            {/* <h1>{activeIndex}</h1> */}
         </div>
     );
 }
 
 export default Accordion;
-

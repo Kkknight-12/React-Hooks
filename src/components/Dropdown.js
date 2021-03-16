@@ -1,6 +1,6 @@
 import {useState, useEffect, useRef } from 'react';
 
-const Dropdown = ( { options, selected, onSelectedChange } ) => {
+const Dropdown = ( { label, options, selected, onSelectedChange, text } ) => {
 
     // making drop downmenu-> false is close, true is open
     const [ open, setOpen ] = useState(false);
@@ -52,7 +52,7 @@ const Dropdown = ( { options, selected, onSelectedChange } ) => {
     return ( 
         <div ref={ref} className="ui form">
             <div className="field">
-                <label className="label">Select a Color</label>
+                <label className="label">{label}</label>
                 <div 
                 // when user click on div it will 
                 // change open from false to true and visa-versa
@@ -68,13 +68,6 @@ const Dropdown = ( { options, selected, onSelectedChange } ) => {
                         className= { `menu ${ open ? 'visible transition' : '' }` }>
                             {renderedOptions}
                     </div>
-                </div>
-                <div>
-                    <h3 
-                    id='select-color'
-                    style= {{color:`${selected.value}`}}>
-                        {`This color is ${selected.value}`}
-                    </h3>
                 </div>
             </div>
         </div>
