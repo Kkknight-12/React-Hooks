@@ -7,17 +7,23 @@ const Search = () => {
     const [ results, setResults ] = useState([])
 
     // creating two useEffect
-    // debouceTerm will change will change when you change Term
+    // debouceTerm will change when you change Term
     useEffect( () => {
         const timerId = setTimeout( () => {
+            // after 1 second term will be set to debounceTerm
             setDebounceTerm(term)
         }, 1000);
 
+        // when ever the term changes first return run 
+        // which will clear the last time out
+        // then the setTimout run which will create a new timeout.
         return () => {
             clearTimeout(timerId)
         }
     }, [term] )
 
+    // debouceTerm changes you make request to wikipedia and store
+    // the result in results array.
     useEffect( () => {
         const search = async () => {
             const { data } = await axios.get(
