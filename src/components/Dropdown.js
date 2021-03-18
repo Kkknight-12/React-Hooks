@@ -15,6 +15,10 @@ const Dropdown = ( { label, options, selected, onSelectedChange, text } ) => {
 
         const onBodyClick = (e) => {
             // if clicked inside ui form then do nothing
+            // e.target will show the element which was clicked
+            // re.current will trigger when the <div ref={ref} className="ui form"> or its child element  is clicked
+            // re.currennt will see that e.target element is <div ref={ref} className="ui form"> or its child element
+            // if it is then do nothing
             if( ref.current && ref.current.contains( e.target ) ){
                 return;
             }
@@ -22,6 +26,8 @@ const Dropdown = ( { label, options, selected, onSelectedChange, text } ) => {
             setOpen(false)
         }
 
+        // adding event listner to body
+        // which will be triggered if you click anywhere
         document.body.addEventListener( "click", onBodyClick, { capture: true } );
         // will remove the old event listner before adding new one, 
         // will also remove if we remove Dropdown component
@@ -62,8 +68,10 @@ const Dropdown = ( { label, options, selected, onSelectedChange, text } ) => {
                 className= { `ui selection dropdown 
                 ${ open ? 'visible active' : '' }` } 
                 > 
-                    <i className="dropdown icon"></i>
+                    {open ? <i class="angle up icon"></i> : <i class="angle down icon"></i> }
+                    {/* this will always be shown, though value will change */}
                     <div className="text">{selected.label}</div>
+                    {/* this will work on open close functionality */}
                     <div 
                         className= { `menu ${ open ? 'visible transition' : '' }` }>
                             {renderedOptions}
